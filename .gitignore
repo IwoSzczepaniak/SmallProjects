@@ -1,0 +1,7 @@
+Galileusz/korki.db
+SpotOn/database.db
+*/.dist
+*/__pycache__
+*/venv
+*/.venv
+*/.idea

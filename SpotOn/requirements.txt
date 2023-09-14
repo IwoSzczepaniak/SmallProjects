@@ -1,0 +1,8 @@
+Used libraries:
+    1. translate
+    2. tkinter
+    3. PIL 
+    4. requests
+    5. io 
+    6. sqlite3
+    7. platform
