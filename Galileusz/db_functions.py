@@ -24,7 +24,7 @@ def create_DB(db_name:str):
     conn.close()
 
 ### inserting data
-def insert_into_clients_DB(db_name:str, name:str, subject:str, level:int, rate:int, day:int):
+def insert_into_clients(db_name:str, name:str, subject:str, level:int, rate:int, day:int):
     conn = sqlite3.connect(db_name)
 
     conn.execute("INSERT INTO clients (name, subject, level, rate, day) VALUES (?, ?, ?, ?, ?)", 
@@ -41,6 +41,11 @@ def insert_into_clients_DB(db_name:str, name:str, subject:str, level:int, rate:i
 def insert_into_lessons(db_name, month, client_id):
     conn = sqlite3.connect(db_name)
 
+    cursor = conn.execute("SELECT * FROM lessons WHERE month = ? AND client_id = ?", 
+                    (f"{month}", f"{client_id}"))
+    
+    if cursor is not None: return
+
     conn.execute("INSERT INTO lessons (month, client_id) VALUES (?, ?)", 
                     (f"{month}", f"{client_id}"))
     conn.commit()
@@ -48,7 +53,7 @@ def insert_into_lessons(db_name, month, client_id):
 
 
 ### searching
-def search_sb_DB(db_name, name, day):
+def search_sb(db_name, name, day):
     conn = sqlite3.connect(db_name)
 
     cursor = conn.execute("SELECT * FROM clients WHERE name = ? AND day = ?", 
@@ -69,3 +74,10 @@ def reset_DB():
     conn.execute("DELETE FROM lessons")
     conn.commit()
     conn.close()
+
+def get_all_clients(db_name):
+    conn = sqlite3.connect(db_name)
+    cursor = conn.execute("SELECT * FROM clients")
+    clients = cursor.fetchall()
+    conn.close()
+    return clients
